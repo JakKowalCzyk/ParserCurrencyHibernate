@@ -16,10 +16,15 @@ public class MakeBase {
         setCurrency();
         managerFactory = Persistence.createEntityManagerFactory("myDatabase");
         manager = managerFactory.createEntityManager();
-        setEurBase();
-        setUsdBase();
+        setBases();
         manager.close();
         managerFactory.close();
+    }
+    public void setBases(){
+        setEurBase();
+        setUsdBase();
+        setChfBase();
+        setGbpBase();
     }
     public Date getDateSql() {
         java.util.Date todaysDate = new java.util.Date();
@@ -31,16 +36,28 @@ public class MakeBase {
         currency = parser.getCurrency();
     }
     public void setEurBase(){
-        EURbase base = new EURbase();
-        base.setValueOfEur(currency.get(0));
-        base.setDateSql(getDateSql());
-        addBase(base);
+        EURbase euRbase = new EURbase();
+        euRbase.setValueOfEur(currency.get(0));
+        euRbase.setDateSql(getDateSql());
+        addBase(euRbase);
     }
     public void setUsdBase(){
         USDbase usDbase = new USDbase();
         usDbase.setValueOfUSD(currency.get(1));
         usDbase.setDateSql(getDateSql());
         addBase(usDbase);
+    }
+    public void setChfBase(){
+        CHFbase chFbase = new CHFbase();
+        chFbase.setValueOfChf(currency.get(2));
+        chFbase.setDateSql(getDateSql());
+        addBase(chFbase);
+    }
+    public void setGbpBase(){
+        GBPbase gbPbase = new GBPbase();
+        gbPbase.setValueOfGbp(currency.get(3));
+        gbPbase.setDateSql(getDateSql());
+        addBase(gbPbase);
     }
     public void addBase(Object obj){
         manager.getTransaction().begin();
