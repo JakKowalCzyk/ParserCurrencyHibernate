@@ -17,6 +17,7 @@ public class MakeBase {
         managerFactory = Persistence.createEntityManagerFactory("myDatabase");
         manager = managerFactory.createEntityManager();
         setEurBase();
+        setUsdBase();
         manager.close();
         managerFactory.close();
     }
@@ -25,7 +26,6 @@ public class MakeBase {
         dateSql = new Date(todaysDate.getTime());
         return dateSql;
     }
-
     public void setCurrency(){
         Parser parser = new Parser();
         currency = parser.getCurrency();
@@ -35,6 +35,12 @@ public class MakeBase {
         base.setValueOfEur(currency.get(0));
         base.setDateSql(getDateSql());
         addBase(base);
+    }
+    public void setUsdBase(){
+        USDbase usDbase = new USDbase();
+        usDbase.setValueOfUSD(currency.get(1));
+        usDbase.setDateSql(getDateSql());
+        addBase(usDbase);
     }
     public void addBase(Object obj){
         manager.getTransaction().begin();

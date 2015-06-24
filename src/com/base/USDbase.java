@@ -1,15 +1,13 @@
 package com.base;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.sql.Date;
 
 /**
  * Created by DK on 2015-06-24.
  */
 @Entity
+@Table(name = "USD")
 public class USDbase {
     public long getId() {
         return id;
@@ -19,12 +17,20 @@ public class USDbase {
         this.id = id;
     }
 
-    public Double getValueOfEur() {
+    public Double getValueOfUSD() {
         return valueOfUSD;
     }
 
-    public void setValueOfEur(Double valueOfEur) {
-        this.valueOfUSD = valueOfEur;
+    public void setValueOfUSD(Double valueOfUSD) {
+        this.valueOfUSD = valueOfUSD;
+    }
+
+    public Date getDateSql() {
+        return dateSql;
+    }
+
+    public void setDateSql(Date dateSql) {
+        this.dateSql = dateSql;
     }
 
     @Id

@@ -7,7 +7,7 @@ import java.sql.Date;
  * Created by JK on 2015-06-24.
  */
 @Entity
-@Table(name = "EURO")
+@Table(name = "EUR")
 public class EURbase {
     public long getId() {
         return id;
