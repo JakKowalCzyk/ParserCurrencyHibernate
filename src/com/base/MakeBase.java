@@ -1,12 +1,13 @@
 package com.base;
 
 import com.parser.Parser;
-
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import javax.persistence.Query;
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 /**
  * Created by JK on 2015-06-24.
@@ -17,17 +18,49 @@ public class MakeBase {
         managerFactory = Persistence.createEntityManagerFactory("myDatabase");
         manager = managerFactory.createEntityManager();
         setBases();
+        getTodaysDate();
         manager.close();
         managerFactory.close();
     }
     public void setBases(){
-        setEurBase();
-        setUsdBase();
-        setChfBase();
-        setGbpBase();
+        try {
+            if (checkDates() == true){
+                setEurBase();
+                setUsdBase();
+                setChfBase();
+                setGbpBase();
+            }
+            else System.out.println();
+        }catch (Exception e){
+            setEurBase();
+            setUsdBase();
+            setChfBase();
+            setGbpBase();
+        }
+
+    }
+    public java.sql.Date getTodaysDate() {
+        Query query = manager.createQuery("select e from EURbase e where Id = (select max(id) from EURbase)");
+        EURbase euRbase = (EURbase) query.getSingleResult();
+        System.out.println(euRbase.getDateSql());
+        return euRbase.getDateSql();
+    }
+    public boolean checkDates(){
+        try{
+            todaysDate = new java.util.Date();
+            Calendar calendarBase = Calendar.getInstance();
+            calendarBase.setTime(getTodaysDate());
+            Calendar calendarNow = Calendar.getInstance();
+            calendarNow.setTime(todaysDate);
+            if (calendarBase.get(Calendar.YEAR) == calendarNow.get(Calendar.YEAR) &&
+                    calendarBase.get(Calendar.DAY_OF_YEAR) == calendarNow.get(Calendar.DAY_OF_YEAR)) return false;
+            else return true;
+        }catch (Exception e){
+            return true;
+        }
     }
     public Date getDateSql() {
-        java.util.Date todaysDate = new java.util.Date();
+        todaysDate = new java.util.Date();
         dateSql = new Date(todaysDate.getTime());
         return dateSql;
     }
@@ -66,6 +99,7 @@ public class MakeBase {
     }
 
     private java.sql.Date dateSql;
+    private java.util.Date todaysDate;
     private EntityManagerFactory managerFactory;
     private EntityManager manager;
     private ArrayList<Double> currency;
