@@ -1,6 +1,7 @@
 package com.base;
 
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -46,6 +47,46 @@ public class Selectfrom {
         TypedQuery<GBPbase> query = manager.createQuery(criteriaQuery);
         List<GBPbase> gbPbases = query.getResultList();
         return gbPbases;
+    }
+    public String selectMaxEur() {
+        Query query = manager.createQuery("select e from EURbase e where valueOfEur = (select max(valueOfEur) from EURbase)");
+        EURbase euRbase = (EURbase) query.getSingleResult();
+        return "Max EUR = " + euRbase.getDateSql() + "  -  " + euRbase.getValueOfEur();
+    }
+    public String selectMinEur(){
+        Query query = manager.createQuery("select e from EURbase e where valueOfEur = (select min(valueOfEur) from EURbase)");
+        EURbase euRbase = (EURbase) query.getSingleResult();
+        return "Min EUR = " + euRbase.getDateSql() + "  -  " + euRbase.getValueOfEur();
+    }
+    public String selectMaxUSD() {
+        Query query = manager.createQuery("select e from USDbase e where valueOfUSD = (select max(valueOfUSD) from USDbase)");
+        USDbase usDbase = (USDbase) query.getSingleResult();
+        return "Max USD = " + usDbase.getDateSql() + "  -  " + usDbase.getValueOfUSD();
+    }
+    public String selectMinUSD() {
+        Query query = manager.createQuery("select e from USDbase e where valueOfUSD = (select min(valueOfUSD) from USDbase)");
+        USDbase usDbase = (USDbase) query.getSingleResult();
+        return "Min USD = " + usDbase.getDateSql() + "  -  " + usDbase.getValueOfUSD();
+    }
+    public String selectMaxChf() {
+        Query query = manager.createQuery("select e from CHFbase e where valueOfChf = (select max(valueOfChf) from CHFbase)");
+        CHFbase chFbase = (CHFbase) query.getSingleResult();
+        return "Max CHF = " + chFbase.getDateSql() + "  -  " + chFbase.getValueOfChf();
+    }
+    public String selectMinChf() {
+        Query query = manager.createQuery("select e from CHFbase e where valueOfChf = (select min(valueOfChf) from CHFbase)");
+        CHFbase chFbase = (CHFbase) query.getSingleResult();
+        return "Min CHF = " + chFbase.getDateSql() + "  -  " + chFbase.getValueOfChf();
+    }
+    public String selectMaxGbp() {
+        Query query = manager.createQuery("select e from GBPbase e where valueOfGbp = (select max(valueOfGbp) from GBPbase)");
+        GBPbase gbPbase = (GBPbase) query.getSingleResult();
+        return "Max GBP = " + gbPbase.getDateSql() + "  -  " + gbPbase.getValueOfGbp();
+    }
+    public String selectMinGbp() {
+        Query query = manager.createQuery("select e from GBPbase e where valueOfGbp = (select min(valueOfGbp) from GBPbase)");
+        GBPbase gbPbase = (GBPbase) query.getSingleResult();
+        return "Min GBP = " + gbPbase.getDateSql() + "  -  " + gbPbase.getValueOfGbp();
     }
 
     private EntityManager manager;

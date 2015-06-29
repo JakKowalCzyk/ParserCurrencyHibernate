@@ -9,6 +9,7 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.SplittableRandom;
 
 /**
  * Created by JK on 2015-06-24.
@@ -21,12 +22,23 @@ public class MakeBase {
         setBases();
         getTodaysDate();
         selectfrom = new Selectfrom(manager);
+        setSelectionFrom();
+        manager.close();
+        managerFactory.close();
+    }
+    public void setSelectionFrom(){
         setEuRbasesList();
         setUsdBasesList();
         setChfBasesList();
         setGbpBasesList();
-        manager.close();
-        managerFactory.close();
+        setMaxEur();
+        setMinEur();
+        setMaxUsd();
+        setMinUsd();
+        setMaxGbp();
+        setMinGbp();
+        setMaxChf();
+        setMinChf();
     }
     public void setBases(){
         try {
@@ -101,6 +113,7 @@ public class MakeBase {
         manager.persist(obj);
         manager.getTransaction().commit();
     }
+
     public void setEuRbasesList(){
         euRbasesList = selectfrom.selectEUR();
     }
@@ -113,12 +126,28 @@ public class MakeBase {
     public void setGbpBasesList(){
         gbPbasesList = selectfrom.selectGBP();
     }
+    public void setMaxEur(){ maxEur = selectfrom.selectMaxEur(); }
+    public void setMinEur(){ minEur = selectfrom.selectMinEur(); }
+    public void setMaxUsd(){ maxUsd = selectfrom.selectMaxUSD(); }
+    public void setMinUsd(){ minUsd = selectfrom.selectMinUSD(); }
+    public void setMaxChf(){ maxChf = selectfrom.selectMaxChf(); }
+    public void setMinChf(){ minChf = selectfrom.selectMinChf(); }
+    public void setMaxGbp(){ maxGbp = selectfrom.selectMaxGbp(); }
+    public void setMinGbp(){ minGbp = selectfrom.selectMinGbp(); }
     public List<EURbase> getEuRbasesList(){
         return euRbasesList;
     }
     public List<USDbase> getUsDbasesList() { return usDbasesList; }
     public List<CHFbase> getChFbasesList() { return chFbasesList; }
     public List<GBPbase> getGbPbasesList() { return gbPbasesList; }
+    public String getMaxEur(){ return maxEur; }
+    public String getMinEur(){ return minEur; }
+    public String getMaxUsd(){ return maxUsd; }
+    public String getMinUsd(){ return minUsd; }
+    public String getMaxChf(){ return maxChf; }
+    public String getMinChf(){ return minChf; }
+    public String getMaxGbp() { return maxGbp; }
+    public String getMinGbp() { return minGbp; }
 
     private java.sql.Date dateSql;
     private java.util.Date todaysDate;
@@ -134,4 +163,5 @@ public class MakeBase {
     private List<USDbase> usDbasesList;
     private List<CHFbase> chFbasesList;
     private List<GBPbase> gbPbasesList;
+    private String maxEur, minEur, maxUsd, minUsd, maxChf, minChf, maxGbp, minGbp;
 }
